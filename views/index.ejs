@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Chat App</title>
+    <!-- Locomotive Scroll CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div data-scroll-container>
+      <h1 data-scroll>Mini Chat Book</h1>
+      <p data-scroll>All chats</p>
+      <hr data-scroll />
+      <div class="allChats">
+        <form action="/chats/new" method="GET">
+          <button class="button-17" role="button">New Chat</button>
+        </form>
+      </div>
+      <!-- Loop through all chats -->
+      <% for(let chat of chats){ %>
+      <div class="Allmsg" data-scroll>
+        <p>From: <%= chat.from %></p>
+        <p>To: <%= chat.to %></p>
+        <div class="msgcontainer">
+          <p>Message: <%= chat.msg %></p>
+          <!--  edit BTN ROUTE -->
+          <form method= "GET" action="/chats/<%=chat.id %>/edit">
+            <button class="button-26" role="button">Edit Chat</button>
+          </form>
+          <!--  delete BTN ROUTE -->
+          <form method= "POST" action="/chats/<%=chat.id %>?_method=DELETE">
+            <button class="button-36" role="button">Delete Chat</button>
+          </form>
+        </div>
+        <p>Time: <%= chat.created_at.toString().split(" ")[4]%></p>
+        <p>
+          Date: <%= chat.created_at.toString().split(" ").slice(0,4).join("-")%>
+        </p>
+      </div>
+      <% } %>
+    </div>
+
+    <!-- Locomotive Scroll JS -->
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.js"></script>
+    <script>
+      // Initialize Locomotive Scroll
+      const scroll = new LocomotiveScroll({
+        el: document.querySelector("[data-scroll-container]"),
+        smooth: true,
+      });
+    </script>
+  </body>
+</html>
